@@ -73,48 +73,6 @@
     <button onclick="searchCard()">搜尋</button>
     <div id="result"></div>
 
-    <script>
-        function appendToInput(value) {
-            const cardIdInput = document.getElementById('cardId');
-            cardIdInput.value += value; // 添加字符到輸入框
-        }
-
-        function deleteLast() {
-            const cardIdInput = document.getElementById('cardId');
-            cardIdInput.value = cardIdInput.value.slice(0, -1); // 移除最後一個字符
-        }
-
-        async function searchCard() {
-            const cardIdInput = document.getElementById('cardId');
-            const cardId = cardIdInput.value.trim().toUpperCase(); // 自動轉換為大寫
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = ''; // 清空之前的結果
-
-            if (cardId === '') {
-                resultDiv.textContent = '請輸入卡牌 ID';
-                return;
-            }
-
-            try {
-                const q = window.query(window.collection(window.db, 'cards'), window.where('id', '==', cardId));
-                const querySnapshot = await window.getDocs(q);
-
-                if (querySnapshot.empty) {
-                    resultDiv.textContent = '未找到該 ID 的卡牌效果。';
-                } else {
-                    querySnapshot.forEach((doc) => {
-                        const card = doc.data();
-                        const cardElement = document.createElement('div');
-                        cardElement.classList.add('card-info');
-                        cardElement.textContent = `ID: ${card.id}, Effect: ${card.effect}`;
-                        resultDiv.appendChild(cardElement);
-                    });
-                }
-            } catch (error) {
-                console.error('Error fetching document: ', error);
-                resultDiv.textContent = '獲取卡牌資料時出錯。';
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
