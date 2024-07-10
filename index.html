@@ -2,108 +2,42 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>卡牌查詢</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        h1 {
-            margin-bottom: 20px;
-        }
-        #input-container, #result-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        input, button {
-            font-size: 20px;
-            padding: 10px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        #result {
-            font-size: 24px;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            width: 80%;
-            text-align: center;
-            visibility: hidden; /* 初始設置為隱藏 */
-        }
-        #back-button {
-            padding: 10px;
-            font-size: 20px;
-            cursor: pointer;
-            margin-top: 20px;
-            visibility: hidden; /* 初始設置為隱藏 */
-        }
-    </style>
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA71ZvjbqbI7AVY9G4sQZkN_jIrFHZia4I",
+            authDomain: "optg-fa160.firebaseapp.com",
+            projectId: "optg-fa160",
+            storageBucket: "optg-fa160.appspot.com",
+            messagingSenderId: "1085170144521",
+            appId: "1:1085170144521:web:c4f212d17bc213a03b2fd8",
+            measurementId: "G-RPLQ797VLX"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Make db available globally
+        window.db = db;
+        window.collection = collection;
+        window.query = query;
+        window.where = where;
+        window.getDocs = getDocs;
+    </script>
 </head>
 <body>
     <h1>卡牌資訊查詢</h1>
-    <div id="input-container">
-        <input type="text" id="cardId" placeholder="輸入卡牌 ID">
-        <button onclick="searchCard()">搜尋</button>
-    </div>
-    <div id="result-container">
-        <div id="result"></div>
-        <button id="back-button" onclick="goBack()">返回</button>
-    </div>
+    <input type="text" id="cardId" placeholder="輸入卡牌 ID">
+    <button onclick="searchCard()">搜尋</button>
+    <div id="result"></div>
 
-    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js"></script>
-    <script>
-        // Initialize Firebase
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID",
-            measurementId: "YOUR_MEASUREMENT_ID"
-        };
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        function searchCard() {
-            const cardId = document.getElementById('cardId').value.trim().toUpperCase();
-            if (cardId === '') {
-                alert("請輸入卡牌 ID");
-                return;
-            }
-            const query = db.collection('cards').where('id', '==', cardId);
-            query.get().then((querySnapshot) => {
-                if (querySnapshot.empty) {
-                    document.getElementById('result').textContent = '未找到該 ID 的卡牌效果。';
-                } else {
-                    querySnapshot.forEach((doc) => {
-                        document.getElementById('result').textContent = `Effect: ${doc.data().effect}`;
-                    });
-                }
-                document.getElementById('result').style.visibility = 'visible';
-                document.getElementById('back-button').style.visibility = 'visible';
-                document.getElementById('input-container').style.display = 'none';
-            }).catch((error) => {
-                console.error("Error fetching document:", error);
-            });
-        }
-
-        function goBack() {
-            document.getElementById('result').style.visibility = 'hidden';
-            document.getElementById('back-button').style.visibility = 'hidden';
-            document.getElementById('input-container').style.display = 'flex';
-            document.getElementById('cardId').value = '';
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
