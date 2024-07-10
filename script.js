@@ -7372,7 +7372,9 @@ const cards = [
     "id": "ST08-002_p2",
     "effect": "這張角色卡在與領航卡的對戰中不會遭到KO。【啟動主要】可將這張角色卡置為休息狀態：最多1張對手的角色卡，在這個回合，費用-2。"
   }
-]
+];
+
+
 function searchCard() {
     const id = document.getElementById('cardId').value.toUpperCase();
     const resultDiv = document.getElementById('result');
