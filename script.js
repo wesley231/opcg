@@ -1,6 +1,7 @@
 function pressNumber(num) {
-    const display = document.getElementById('display');
-    display.textContent += num;
+    document.getElementById('cardId').value+=num;
+
+
 }
 
 async function searchCard() {
