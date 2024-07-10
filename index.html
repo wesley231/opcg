@@ -84,18 +84,25 @@
 <body>
     <h1>卡牌資訊查詢</h1>
     <input type="text" id="cardId" placeholder="輸入卡牌 ID">
-        <div class="display" id="display"></div>
-        <div class="buttons">
-        <div class="button" onclick="pressNumber(1)">1</div>
-        <div class="button" onclick="pressNumber(2)">2</div>
-        <div class="button" onclick="pressNumber(3)">3</div>
-        <div class="button" onclick="pressNumber(4)">4</div>
-        <div class="button" onclick="pressNumber(5)">5</div>
-        <div class="button" onclick="pressNumber(6)">6</div>
-        <div class="button" onclick="pressNumber(7)">7</div>
-        <div class="button" onclick="pressNumber(8)">8</div>
-        <div class="button" onclick="pressNumber(9)">9</div>
-        <div class="button" onclick="pressNumber(0)">0</div>
+    <div id="button-container">
+        <button onclick="appendToInput('E')">E</button>
+        <button onclick="appendToInput('B')">B</button>
+        <button onclick="appendToInput('O')">O</button>
+        <button onclick="appendToInput('P')">P</button>
+        <button onclick="appendToInput('S')">S</button>
+        <button onclick="appendToInput('T')">T</button>
+        <button onclick="appendToInput('0')">0</button>
+        <button onclick="appendToInput('1')">1</button>
+        <button onclick="appendToInput('2')">2</button>
+        <button onclick="appendToInput('3')">3</button>
+        <button onclick="appendToInput('4')">4</button>
+        <button onclick="appendToInput('5')">5</button>
+        <button onclick="appendToInput('6')">6</button>
+        <button onclick="appendToInput('7')">7</button>
+        <button onclick="appendToInput('8')">8</button>
+        <button onclick="appendToInput('9')">9</button>
+        <button onclick="appendToInput('-')">-</button>
+        <button onclick="deleteLast()">刪除</button>
     </div>
     <button onclick="searchCard()">搜尋</button>
     <div id="result"></div>
