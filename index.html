@@ -135,10 +135,13 @@
             const cardIdInput = document.getElementById('cardId');
             const cardId = cardIdInput.value.trim().toUpperCase();
             const resultDiv = document.getElementById('result');
+            const resultContainer = document.getElementById('result-container');
             resultDiv.innerHTML = '';
 
             if (cardId === '') {
                 resultDiv.textContent = '請輸入卡牌 ID';
+                resultContainer.classList.remove('hidden');
+                resultContainer.classList.add('visible');
                 return;
             }
 
@@ -155,16 +158,22 @@
                     });
                 }
                 document.getElementById('input-container').classList.add('hidden');
-                document.getElementById('result-container').classList.remove('hidden');
+                resultContainer.classList.remove('hidden');
+                resultContainer.classList.add('visible');
+                document.getElementById('back-button').style.display = 'block';
             } catch (error) {
                 console.error('Error fetching document: ', error);
                 resultDiv.textContent = '獲取卡牌資料時出錯。';
+                resultContainer.classList.remove('hidden');
+                resultContainer.classList.add('visible');
             }
         }
 
         function goBack() {
             document.getElementById('input-container').classList.remove('hidden');
             document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('result-container').classList.remove('visible');
+            document.getElementById('back-button').style.display = 'none';
             document.getElementById('cardId').value = '';
         }
     </script>
