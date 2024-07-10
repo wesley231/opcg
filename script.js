@@ -1,4 +1,4 @@
-function pressNumber(num) {
+function appendToInput(num) {
     document.getElementById('cardId').value+=num;
 
 
