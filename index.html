@@ -18,9 +18,10 @@
             font-size: 16px;
             margin: 10px;
         }
-        #result {
+        #result, #buttonPanel {
             margin-top: 20px;
             font-size: 16px;
+        }
         .card-info {
             padding: 10px;
             margin-top: 5px;
@@ -30,51 +31,28 @@
             text-align: center;
         }
         .card-info div {
-            margin-bottom: 5px; // 為 ID 和效果之間添加空間
+            margin-bottom: 5px; /* 修改注釋符號 */
         }
-
         strong {
-            font-weight: bold; // 確保加粗效果顯著
+            font-weight: bold; /* 修改注釋符號 */
         }
         #buttonPanel button {
             margin: 5px;
             padding: 5px 10px;
             font-size: 16px;
         }
+        #buttonPanel {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
     </style>
-    <!-- Firebase App (the core Firebase SDK) -->
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
-
-        // Your web app's Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyA71ZvjbqbI7AVY9G4sQZkN_jIrFHZia4I",
-            authDomain: "optg-fa160.firebaseapp.com",
-            projectId: "optg-fa160",
-            storageBucket: "optg-fa160.appspot.com",
-            messagingSenderId: "1085170144521",
-            appId: "1:1085170144521:web:c4f212d17bc213a03b2fd8",
-            measurementId: "G-RPLQ797VLX"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Make db available globally
-        window.db = db;
-        window.collection = collection;
-        window.query = query;
-        window.where = where;
-        window.getDocs = getDocs;
-    </script>
 </head>
 <body>
     <h1>卡牌資訊查詢</h1>
     <input type="text" id="cardId" placeholder="輸入卡牌 ID">
     <div id="buttonPanel">
+        <!-- 按鈕分組 -->
         <button onclick="appendToInput('EB')">EB</button>
         <button onclick="appendToInput('OP')">OP</button>
         <button onclick="appendToInput('P')">P</button>
@@ -95,6 +73,48 @@
     <button onclick="searchCard()">搜尋</button>
     <div id="result"></div>
 
-    <script src="script.js"></script>
+    <script>
+        function appendToInput(value) {
+            const cardIdInput = document.getElementById('cardId');
+            cardIdInput.value += value; // 添加字符到輸入框
+        }
+
+        function deleteLast() {
+            const cardIdInput = document.getElementById('cardId');
+            cardIdInput.value = cardIdInput.value.slice(0, -1); // 移除最後一個字符
+        }
+
+        async function searchCard() {
+            const cardIdInput = document.getElementById('cardId');
+            const cardId = cardIdInput.value.trim().toUpperCase(); // 自動轉換為大寫
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ''; // 清空之前的結果
+
+            if (cardId === '') {
+                resultDiv.textContent = '請輸入卡牌 ID';
+                return;
+            }
+
+            try {
+                const q = window.query(window.collection(window.db, 'cards'), window.where('id', '==', cardId));
+                const querySnapshot = await window.getDocs(q);
+
+                if (querySnapshot.empty) {
+                    resultDiv.textContent = '未找到該 ID 的卡牌效果。';
+                } else {
+                    querySnapshot.forEach((doc) => {
+                        const card = doc.data();
+                        const cardElement = document.createElement('div');
+                        cardElement.classList.add('card-info');
+                        cardElement.textContent = `ID: ${card.id}, Effect: ${card.effect}`;
+                        resultDiv.appendChild(cardElement);
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching document: ', error);
+                resultDiv.textContent = '獲取卡牌資料時出錯。';
+            }
+        }
+    </script>
 </body>
 </html>
