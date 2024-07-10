@@ -8,8 +8,8 @@ function deleteLast(val) {
 }
 
 function clearall() {
-    document.getElementById('cardId').value='';
-}|
+        document.getElementById('cardId').value = ''; // Clear the input field
+        }
 async function searchCard() {
     const cardIdInput = document.getElementById('cardId');
     const cardId = cardIdInput.value.trim().toUpperCase(); // 自動轉換為大寫
