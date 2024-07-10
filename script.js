@@ -3,7 +3,7 @@ async function searchCard() {
     const cardId = cardIdInput.value.trim().toUpperCase(); // 自動轉換為大寫
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = ''; // 清空之前的結果
-
+    
     if (cardId === '') {
         resultDiv.textContent = '請輸入卡牌 ID';
         return;
