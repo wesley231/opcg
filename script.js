@@ -1,3 +1,8 @@
+function pressNumber(num) {
+    const display = document.getElementById('display');
+    display.textContent += num;
+}
+
 async function searchCard() {
     const cardIdInput = document.getElementById('cardId');
     const cardId = cardIdInput.value.trim().toUpperCase(); // 自動轉換為大寫
