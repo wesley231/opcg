@@ -1,5 +1,6 @@
 async function searchCard() {
-    const cardId = document.getElementById('cardId').value.trim();
+    const cardIdInput = document.getElementById('cardId');
+    const cardId = cardIdInput.value.trim().toUpperCase(); // 自動轉換為大寫
     const resultDiv = document.getElementById('result');
     resultDiv.innerHTML = ''; // 清空之前的結果
 
@@ -18,7 +19,7 @@ async function searchCard() {
             querySnapshot.forEach((doc) => {
                 const card = doc.data();
                 const cardElement = document.createElement('div');
-                cardElement.textContent = `ID: ${card.id}, Effect: ${card.effect}`;
+                cardElement.textContent = `ID: ${card.id}, Name: ${card.name}, Effect: ${card.effect}`;
                 resultDiv.appendChild(cardElement);
             });
         }
