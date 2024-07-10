@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, maximum-scale=1.0, minimum-scale=1.0">
     <title>OPCG 卡牌查詢</title>
     <style>
         body {
@@ -114,7 +114,8 @@
         <button onclick="appendToInput('8')">8</button>
         <button onclick="appendToInput('9')">9</button>
         <button onclick="appendToInput('-')">-</button>
-        <button onclick="deleteLast()">刪除</button>
+        <button onclick="deleteLast()">倒退</button>
+        <button onclick="clearall()">清除</button>
     </div>
     <button onclick="searchCard()">搜尋</button>
     <div id="result"></div>
