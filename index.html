@@ -24,21 +24,11 @@
             align-items: center;
             margin-bottom: 20px;
         }
-        input {
+        input, button {
             font-size: 20px;
             padding: 10px;
             margin-bottom: 10px;
             text-align: center;
-        }
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-        .button-grid button {
-            padding: 10px;
-            font-size: 20px;
-            cursor: pointer;
         }
         #result {
             font-size: 24px;
@@ -47,126 +37,71 @@
             border: 1px solid #ccc;
             width: 80%;
             text-align: center;
-            margin-top: 20px;
-            display: none;
-        }
-        .hidden {
-            display: none;
-        }
-        .visible {
-            display: block;
+            visibility: hidden; /* 初始設置為隱藏 */
         }
         #back-button {
             padding: 10px;
             font-size: 20px;
             cursor: pointer;
             margin-top: 20px;
-            display: none;
+            visibility: hidden; /* 初始設置為隱藏 */
         }
     </style>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyA71ZvjbqbI7AVY9G4sQZkN_jIrFHZia4I",
-            authDomain: "optg-fa160.firebaseapp.com",
-            projectId: "optg-fa160",
-            storageBucket: "optg-fa160.appspot.com",
-            messagingSenderId: "1085170144521",
-            appId: "1:1085170144521:web:c4f212d17bc213a03b2fd8",
-            measurementId: "G-RPLQ797VLX"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        window.db = db;
-        window.collection = collection;
-        window.query = query;
-        window.where = where;
-        window.getDocs = getDocs;
-    </script>
 </head>
 <body>
     <h1>卡牌資訊查詢</h1>
     <div id="input-container">
-        <input type="text" id="cardId" placeholder="輸入卡牌 ID" readonly>
-        <div class="button-grid">
-            <button onclick="appendCharacter('1')">1</button>
-            <button onclick="appendCharacter('2')">2</button>
-            <button onclick="appendCharacter('3')">3</button>
-            <button onclick="appendCharacter('4')">4</button>
-            <button onclick="appendCharacter('5')">5</button>
-            <button onclick="appendCharacter('6')">6</button>
-            <button onclick="appendCharacter('7')">7</button>
-            <button onclick="appendCharacter('8')">8</button>
-            <button onclick="appendCharacter('9')">9</button>
-            <button onclick="appendCharacter('0')">0</button>
-            <button onclick="appendCharacter('EB')">EB</button>
-            <button onclick="appendCharacter('OP')">OP</button>
-            <button onclick="appendCharacter('-')">-</button>
-            <button onclick="appendCharacter('ST')">ST</button>
-            <button onclick="appendCharacter('P')">P</button>
-            <button onclick="deleteLastCharacter()">刪除</button>
-        </div>
+        <input type="text" id="cardId" placeholder="輸入卡牌 ID">
         <button onclick="searchCard()">搜尋</button>
     </div>
-    <div id="result-container" class="hidden">
+    <div id="result-container">
         <div id="result"></div>
         <button id="back-button" onclick="goBack()">返回</button>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js"></script>
     <script>
-        function appendCharacter(char) {
-            const cardIdInput = document.getElementById('cardId');
-            cardIdInput.value += char;
-        }
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "YOUR_MEASUREMENT_ID"
+        };
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        function deleteLastCharacter() {
-            const cardIdInput = document.getElementById('cardId');
-            cardIdInput.value = cardIdInput.value.slice(0, -1);
-        }
-
-        async function searchCard() {
-            const cardIdInput = document.getElementById('cardId');
-            const cardId = cardIdInput.value.trim().toUpperCase();
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '';
-            resultDiv.style.display = 'none';
-
+        function searchCard() {
+            const cardId = document.getElementById('cardId').value.trim().toUpperCase();
             if (cardId === '') {
-                resultDiv.textContent = '請輸入卡牌 ID';
-                resultDiv.style.display = 'block';
+                alert("請輸入卡牌 ID");
                 return;
             }
-
-            try {
-                const q = window.query(window.collection(window.db, 'cards'), window.where('id', '==', cardId));
-                const querySnapshot = await window.getDocs(q);
-
+            const query = db.collection('cards').where('id', '==', cardId);
+            query.get().then((querySnapshot) => {
                 if (querySnapshot.empty) {
-                    resultDiv.textContent = '未找到該 ID 的卡牌效果。';
+                    document.getElementById('result').textContent = '未找到該 ID 的卡牌效果。';
                 } else {
                     querySnapshot.forEach((doc) => {
-                        const card = doc.data();
-                        resultDiv.textContent = `Effect: ${card.effect}`;
+                        document.getElementById('result').textContent = `Effect: ${doc.data().effect}`;
                     });
                 }
+                document.getElementById('result').style.visibility = 'visible';
+                document.getElementById('back-button').style.visibility = 'visible';
                 document.getElementById('input-container').style.display = 'none';
-                resultDiv.style.display = 'block';
-                document.getElementById('back-button').style.display = 'block';
-            } catch (error) {
-                console.error('Error fetching document: ', error);
-                resultDiv.textContent = '獲取卡牌資料時出錯。';
-                resultDiv.style.display = 'block';
-            }
+            }).catch((error) => {
+                console.error("Error fetching document:", error);
+            });
         }
 
         function goBack() {
+            document.getElementById('result').style.visibility = 'hidden';
+            document.getElementById('back-button').style.visibility = 'hidden';
             document.getElementById('input-container').style.display = 'flex';
-            document.getElementById('result').style.display = 'none';
-            document.getElementById('back-button').style.display = 'none';
             document.getElementById('cardId').value = '';
         }
     </script>
