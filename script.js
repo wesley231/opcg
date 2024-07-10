@@ -19,7 +19,8 @@ async function searchCard() {
             querySnapshot.forEach((doc) => {
                 const card = doc.data();
                 const cardElement = document.createElement('div');
-                cardElement.textContent = `ID: ${card.id}, Effect: ${card.effect}`;
+                cardElement.textContent = `ID: ${card.id}`;
+                cardElement.textContent = `Effect: ${card.effect}`;
                 resultDiv.appendChild(cardElement);
             });
         }
