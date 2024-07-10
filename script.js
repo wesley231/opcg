@@ -5,9 +5,11 @@ function appendToInput(num) {
 function deleteLast(val) {
     var input =document.getElementById('cardId').value;
     document.getElementById('cardId').value=input.substring(0,input.length-1);
-
-    
 }
+
+function clearall() {
+    document.getElementById('cardId').value='';
+}|
 async function searchCard() {
     const cardIdInput = document.getElementById('cardId');
     const cardId = cardIdInput.value.trim().toUpperCase(); // 自動轉換為大寫
