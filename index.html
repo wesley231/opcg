@@ -2,7 +2,27 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>卡牌查詢</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        input[type="text"], button {
+            font-size: 16px;
+            margin: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
     <!-- Firebase App (the core Firebase SDK) -->
     <script type="module">
         // Import the functions you need from the SDKs you need
