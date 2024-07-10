@@ -35,7 +35,11 @@
 
         strong {
             font-weight: bold; // 確保加粗效果顯著
-
+        }
+        #buttonPanel button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 16px;
         }
     </style>
     <!-- Firebase App (the core Firebase SDK) -->
@@ -70,6 +74,24 @@
 <body>
     <h1>卡牌資訊查詢</h1>
     <input type="text" id="cardId" placeholder="輸入卡牌 ID">
+    <div id="buttonPanel">
+        <button onclick="appendToInput('EB')">EB</button>
+        <button onclick="appendToInput('OP')">OP</button>
+        <button onclick="appendToInput('P')">P</button>
+        <button onclick="appendToInput('ST')">ST</button>
+        <button onclick="appendToInput('0')">0</button>
+        <button onclick="appendToInput('1')">1</button>
+        <button onclick="appendToInput('2')">2</button>
+        <button onclick="appendToInput('3')">3</button>
+        <button onclick="appendToInput('4')">4</button>
+        <button onclick="appendToInput('5')">5</button>
+        <button onclick="appendToInput('6')">6</button>
+        <button onclick="appendToInput('7')">7</button>
+        <button onclick="appendToInput('8')">8</button>
+        <button onclick="appendToInput('9')">9</button>
+        <button onclick="appendToInput('-')">-</button>
+        <button onclick="deleteLast()">刪除</button>
+    </div>
     <button onclick="searchCard()">搜尋</button>
     <div id="result"></div>
 
