@@ -19,8 +19,16 @@ async function searchCard() {
             querySnapshot.forEach((doc) => {
                 const card = doc.data();
                 const cardElement = document.createElement('div');
-                cardElement.textContent = `ID: ${card.id}, Effect: ${card.effect}`; // 同時展示 ID 和效果
+                const idElement = document.createElement('div'); // 創建顯示 ID 的元素
+                const effectElement = document.createElement('div'); // 創建顯示效果的元素
+
+                idElement.textContent = `ID: ${card.id}`;
+                effectElement.innerHTML = `<strong>Effect: ${card.effect}</strong>`; // 使用 strong 標籤來加粗效果
+
+                cardElement.appendChild(idElement);
+                cardElement.appendChild(effectElement);
                 cardElement.classList.add('card-info'); // 添加樣式類
+
                 resultDiv.appendChild(cardElement);
             });
         }
