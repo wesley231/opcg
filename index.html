@@ -2,8 +2,66 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>卡牌查詢</title>
-    <!-- Firebase App (the core Firebase SDK) -->
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        #input-container, #button-container, #result-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        input {
+            font-size: 20px;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .button-grid button {
+            padding: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #result {
+            font-size: 24px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            width: 80%;
+            text-align: center;
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+        #back-button {
+            padding: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
     <script type="module">
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
@@ -34,10 +92,74 @@
 </head>
 <body>
     <h1>卡牌資訊查詢</h1>
-    <input type="text" id="cardId" placeholder="輸入卡牌 ID">
-    <button onclick="searchCard()">搜尋</button>
-    <div id="result"></div>
+    <div id="input-container">
+        <input type="text" id="cardId" placeholder="輸入卡牌 ID" readonly>
+        <div class="button-grid">
+            <button onclick="appendCharacter('1')">1</button>
+            <button onclick="appendCharacter('2')">2</button>
+            <button onclick="appendCharacter('3')">3</button>
+            <button onclick="appendCharacter('4')">4</button>
+            <button onclick="appendCharacter('5')">5</button>
+            <button onclick="appendCharacter('6')">6</button>
+            <button onclick="appendCharacter('7')">7</button>
+            <button onclick="appendCharacter('8')">8</button>
+            <button onclick="appendCharacter('9')">9</button>
+            <button onclick="appendCharacter('0')">0</button>
+            <button onclick="appendCharacter('EB')">EB</button>
+            <button onclick="appendCharacter('OP')">OP</button>
+        </div>
+        <button onclick="searchCard()">搜尋</button>
+    </div>
+    <div id="result-container">
+        <div id="result"></div>
+        <button id="back-button" class="hidden" onclick="goBack()">返回</button>
+    </div>
 
-    <script src="script.js"></script>
+    <script>
+        function appendCharacter(char) {
+            const cardIdInput = document.getElementById('cardId');
+            cardIdInput.value += char;
+        }
+
+        async function searchCard() {
+            const cardIdInput = document.getElementById('cardId');
+            const cardId = cardIdInput.value.trim().toUpperCase(); // 自動轉換為大寫
+            const resultDiv = document.getElementById('result');
+            const backButton = document.getElementById('back-button');
+            resultDiv.innerHTML = ''; // 清空之前的結果
+
+            if (cardId === '') {
+                resultDiv.textContent = '請輸入卡牌 ID';
+                return;
+            }
+
+            try {
+                const q = window.query(window.collection(window.db, 'cards'), window.where('id', '==', cardId));
+                const querySnapshot = await window.getDocs(q);
+
+                if (querySnapshot.empty) {
+                    resultDiv.textContent = '未找到該 ID 的卡牌效果。';
+                } else {
+                    querySnapshot.forEach((doc) => {
+                        const card = doc.data();
+                        resultDiv.textContent = `Effect: ${card.effect}`;
+                    });
+                }
+                document.getElementById('input-container').classList.add('hidden');
+                resultDiv.classList.add('visible');
+                backButton.classList.add('visible');
+            } catch (error) {
+                console.error('Error fetching document: ', error);
+                resultDiv.textContent = '獲取卡牌資料時出錯。';
+            }
+        }
+
+        function goBack() {
+            document.getElementById('input-container').classList.remove('hidden');
+            document.getElementById('result').classList.remove('visible');
+            document.getElementById('back-button').classList.remove('visible');
+            document.getElementById('cardId').value = ''; // 清空輸入框
+        }
+    </script>
 </body>
 </html>
