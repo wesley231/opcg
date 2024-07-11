@@ -35,7 +35,7 @@ async function searchCard() {
                 const effectElement = document.createElement('div'); // 創建顯示效果的元素
 
                 idElement.textContent = `ID: ${card.id}`;
-                effectElement.innerHTML = `<strong>Effect: ${card.effect}</strong>`; // 使用 strong 標籤來加粗效果
+                effectElement.innerHTML = `<strong>效果: ${card.effect}</strong>`; // 使用 strong 標籤來加粗效果
 
                 cardElement.appendChild(idElement);
                 cardElement.appendChild(effectElement);
