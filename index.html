@@ -19,7 +19,6 @@
             margin: 10px;
         }
 
-
         #button-container {
             display: flex;
             flex-wrap: wrap;
@@ -31,7 +30,7 @@
             font-size: 24px; /* 增加字體大小 */
             padding: 20px 30px; /* 增加按鈕內邊距 */
         }
-        #search-button {
+        .search-button {
             font-size: 24px; /* 增加字體大小 */
             padding: 20px 40px; /* 增加按鈕內邊距 */
             margin-top: 20px;
@@ -41,9 +40,6 @@
             margin-top: 20px;
             font-size: 16px;
         }
-        #result {
-            margin-top: 20px;
-            font-size: 16px;
         .card-info {
             padding: 10px;
             margin-top: 5px;
@@ -53,11 +49,11 @@
             text-align: center;
         }
         .card-info div {
-            margin-bottom: 5px; // 為 ID 和效果之間添加空間
+            margin-bottom: 5px; /* 為 ID 和效果之間添加空間 */
         }
 
         strong {
-            font-weight: bold; // 確保加粗效果顯著
+            font-weight: bold; /* 確保加粗效果顯著 */
         }
     </style>
     <!-- Firebase App (the core Firebase SDK) -->
@@ -98,6 +94,11 @@
             const cardIdInput = document.getElementById('cardId');
             cardIdInput.value = cardIdInput.value.slice(0, -1); // Remove last character
         }
+
+        function clearall() {
+            const cardIdInput = document.getElementById('cardId');
+            cardIdInput.value = ''; // Clear all characters
+        }
     </script>
 </head>
 <body>
@@ -120,9 +121,9 @@
         <button onclick="appendToInput('9')">9</button>
         <button onclick="appendToInput('-')">-</button>
         <button onclick="deleteLast()">倒退</button>
-        <button onclick="clearall()">清空</button> 
+        <button onclick="clearall()">清空</button>
+        <button class="search-button" onclick="searchCard()">搜尋</button>
     </div>
-    <button onclick="searchCard()">搜尋</button>
     <div id="result"></div>
 
     <script src="script.js"></script>
