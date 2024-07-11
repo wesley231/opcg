@@ -34,6 +34,15 @@
             font-size: 24px; /* 增加字體大小 */
             padding: 20px 40px; /* 增加按鈕內邊距 */
             margin-top: 20px;
+            background-color: green; /* 設置背景色為綠色 */
+            color: white; /* 設置文字顏色為白色 */
+        }
+        .clear-button {
+            font-size: 24px; /* 增加字體大小 */
+            padding: 20px 40px; /* 增加按鈕內邊距 */
+            margin-top: 20px;
+            background-color: red; /* 設置背景色為紅色 */
+            color: white; /* 設置文字顏色為白色 */
         }
         
         #result {
@@ -99,6 +108,10 @@
             const cardIdInput = document.getElementById('cardId');
             cardIdInput.value = ''; // Clear all characters
         }
+
+        function searchCard() {
+            // This function should be defined in your script.js
+        }
     </script>
 </head>
 <body>
@@ -121,7 +134,7 @@
         <button onclick="appendToInput('9')">9</button>
         <button onclick="appendToInput('-')">-</button>
         <button onclick="deleteLast()">倒退</button>
-        <button onclick="clearall()">清空</button>
+        <button class="clear-button" onclick="clearall()">清空</button>
         <button class="search-button" onclick="searchCard()">搜尋</button>
     </div>
     <div id="result"></div>
